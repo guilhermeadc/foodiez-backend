@@ -8,8 +8,9 @@ class UrlMappings {
             }
         }
 
-        "/api/restaurants"(resources:"Restaurant")
-        //"/api/menus"(resources:"MenuResource")
+        "/api/restaurants"(resources:"Restaurant") {
+            "/menus"(resources:"Menu")
+        }
 
         "/"(view:"/index")
         "500"(view:'/error')

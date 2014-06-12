@@ -6,9 +6,15 @@ class Restaurant {
     String name
 
     static hasMany = [menus: Menu]
+
     static transients = ['name']
 
     static constraints = {
         venueId nullable: false
+    }
+
+    @Override
+    String toString() {
+		return name ?: venueId    		
     }
 }

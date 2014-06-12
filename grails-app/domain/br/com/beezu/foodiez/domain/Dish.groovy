@@ -6,14 +6,22 @@ class Dish {
     String description
     String cuisine
     BigDecimal price
+
+    static belongsTo = [menuSection: MenuSection]
     static hasMany = [additions: String, options: String]
 
     static constraints = {
+        menuSection nullable: false
         name nullable: false
-        description nullable: false
-        price nullable: true
-        name nullable: true
+        description nullable: true
+        cuisine nullable: true
+        price nullable: true 
         options nullable: true
         additions nullable: true
+    }
+
+    @Override
+    String toString() {
+        return name
     }
 }

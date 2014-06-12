@@ -4,10 +4,19 @@ class MenuSection {
 
     String name
     String description
+    
+    static belongsTo = [menu: Menu]
     static hasMany = [dishes: Dish]
 
     static constraints = {
-        name nullable: false
-        name nullable: true
+    	menu nullable: false
+    	name nullable: false
+    	description nullable: true
+    }
+
+    @Override
+    String toString(){
+    	return name
     }
 }
+
