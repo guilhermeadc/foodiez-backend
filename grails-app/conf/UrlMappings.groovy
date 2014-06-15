@@ -8,11 +8,9 @@ class UrlMappings {
             }
         }
 
-        "/api/restaurants"(resources:"restaurantResource", version:'1.0', namespace:'v1') {
-            "/menu"(resource:"menu", version:'1.0', namespace:'v1')             
+        "/api/restaurants"(resources:"restaurantResource") {
+            "/menu"(resource:"menuResource")
         }
-
-        "/api/menus"(resources:"menu", version:'1.0', namespace:'v1') 
 
         "/"(view:"/index")
         "500"(view:'/error')

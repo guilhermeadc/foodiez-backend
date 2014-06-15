@@ -7,8 +7,6 @@ class Restaurant {
     
     static hasOne = [menu: Menu]
 
-    static transients = ['name']
-
     static constraints = {
         venueId nullable: false
         name nullable: true

@@ -6,7 +6,12 @@ class Menu {
     String description
 
     static belongsTo = [restaurant: Restaurant]
+
     static hasMany = [sections: MenuSection]    
+
+    static mapping = {
+        sections lazy: false
+    }
 
     static constraints = {
         restaurant nullable: false

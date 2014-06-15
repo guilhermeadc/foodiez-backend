@@ -29,8 +29,8 @@ class RestaurantRepository implements IRestaurantRepository {
         def restaurant = Restaurant.find { venueId == venue }
 
         try{
-            def data = findVenueData(venue)
             restaurant = restaurant ?: new Restaurant()
+            def data = findVenueData(venue)            
             bindVenueData(restaurant, data?.response?.venue)
         }
         catch(HttpResponseException){}
