@@ -4,13 +4,18 @@ class Restaurant {
 
     String venueId
     String name
-
-    static hasMany = [menus: Menu]
+    
+    static hasOne = [menu: Menu]
 
     static transients = ['name']
 
     static constraints = {
         venueId nullable: false
+        name nullable: true
+    }
+
+    Restaurant() {
+        this.menu = new Menu(this)
     }
 
     @Override

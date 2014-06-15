@@ -10,8 +10,12 @@ class Menu {
 
     static constraints = {
         restaurant nullable: false
-        name nullable: false
+        name nullable: true
         description nullable: true
+    }
+
+    Menu(Restaurant restaurant) {
+        this.restaurant = restaurant
     }
 
     @Override

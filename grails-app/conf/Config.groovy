@@ -121,6 +121,8 @@ log4j = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+
+    //all 'org.codehaus.groovy.grails.web.mapping'           
 }
 
 foursquare {
