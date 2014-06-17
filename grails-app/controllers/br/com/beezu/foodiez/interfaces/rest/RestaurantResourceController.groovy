@@ -10,7 +10,7 @@ import br.com.beezu.foodiez.domain.*
 @Transactional(readOnly = true)
 class RestaurantResourceController extends RestfulController<Restaurant> {
 
-    static responseFormats = ["json", "hal"]
+    static responseFormats = ["json", "xml", "hal"]
 
     def restaurantRepository
 
@@ -21,14 +21,14 @@ class RestaurantResourceController extends RestfulController<Restaurant> {
     @Override
     def show() {
         JSON.use("deep") {
-            respond queryForResource(params.id), [status: OK, includes: includeFields]
+            respond queryForResource(params.id), [status: OK, includes: includeFields, excludes: ['class','menu']]
         }
     }
  
     @Override
     def index(final Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond listAllResources(params), [status: OK, includes: includeFields]
+        respond listAllResources(params), [status: OK, includes: includeFields, excludes: ['class','menu']]
     }
 
     @Override

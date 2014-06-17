@@ -10,7 +10,7 @@ class Menu {
     static hasMany = [sections: MenuSection]    
 
     static mapping = {
-        sections lazy: false
+        sections lazy: "join"
     }
 
     static constraints = {

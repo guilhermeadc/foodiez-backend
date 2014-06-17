@@ -14,6 +14,10 @@ class MenuSection {
     	description nullable: true
     }
 
+    static mapping = {
+        dishes lazy: "join"
+    }
+
     @Override
     String toString(){
     	return name

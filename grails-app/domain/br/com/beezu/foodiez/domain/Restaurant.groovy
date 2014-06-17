@@ -12,6 +12,10 @@ class Restaurant {
         name nullable: true
     }
 
+    static mapping = {
+        menu lazy: "join"
+    }
+
     Restaurant() {
         this.menu = new Menu(this)
     }
