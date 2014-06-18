@@ -4,16 +4,17 @@ import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import grails.test.mixin.*
 import spock.lang.*
-
 import br.com.beezu.foodiez.domain.*
 
-@TestFor(RestaurantResourceController)
-@Mock(Restaurant)
-class RestaurantControllerSpec extends Specification {
+
+@TestFor(DishController)
+@Mock(Dish)
+class DishResourceControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        params['venueId'] = '4caca9ce14c337041d47f23b'
+        // TODO: Populate valid properties like...
+        //params['name'] = 'someValidName'
     }
 
     void "Test the index action returns the correct model"() {
@@ -31,8 +32,8 @@ class RestaurantControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             // Make sure the domain class has at least one non-null property
             // or this test will fail.
-            def restaurant = new Restaurant()
-            controller.save(restaurant)
+            def dish = new Dish()
+            controller.save(dish)
 
         then:"The response status is NOT_ACCEPTABLE"
             response.status == NOT_ACCEPTABLE.value
@@ -40,13 +41,13 @@ class RestaurantControllerSpec extends Specification {
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            restaurant = new Restaurant(params)
+            dish = new Dish(params)
 
-            controller.save(restaurant)
+            controller.save(dish)
 
         then:"The response status is CREATED and the instance is returned"
             response.status == CREATED.value
-            response.text == (restaurant as JSON).toString()
+            response.text == (dish as JSON).toString()
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -58,8 +59,8 @@ class RestaurantControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def restaurant = new Restaurant()
-            controller.update(restaurant)
+            def dish = new Dish()
+            controller.update(dish)
 
         then:"The response status is NOT_ACCEPTABLE"
             response.status == NOT_ACCEPTABLE.value
@@ -67,12 +68,12 @@ class RestaurantControllerSpec extends Specification {
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            restaurant = new Restaurant(params).save(flush: true)
-            controller.update(restaurant)
+            dish = new Dish(params).save(flush: true)
+            controller.update(dish)
 
         then:"The response status is OK and the updated instance is returned"
             response.status == OK.value
-            response.text == (restaurant as JSON).toString()
+            response.text == (dish as JSON).toString()
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
@@ -85,16 +86,16 @@ class RestaurantControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def restaurant = new Restaurant(params).save(flush: true)
+            def dish = new Dish(params).save(flush: true)
 
         then:"It exists"
-            Restaurant.count() == 1
+            Dish.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(restaurant)
+            controller.delete(dish)
 
         then:"The instance is deleted"
-            Restaurant.count() == 0
+            Dish.count() == 0
             response.status == NO_CONTENT.value
     }
 }

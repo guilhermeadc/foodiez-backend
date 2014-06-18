@@ -1,0 +1,35 @@
+package br.com.beezu.foodiez.interfaces.rest
+
+import grails.converters.*
+import static org.springframework.http.HttpStatus.*
+import grails.transaction.Transactional
+import grails.rest.RestfulController
+import br.com.beezu.foodiez.domain.*    
+
+@Transactional(readOnly = true)
+class DishResourceController extends RestfulController<Dish>{
+
+    static responseFormats = ['json', 'xml']
+    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+
+    DishResourceController() {
+        super(Dish)
+    }
+
+    @Override
+    def show() {        
+        JSON.use("deep") {
+            respond queryForResource(params.id), [status: OK, includes: includeFields, excludes: ['class','menuSection','reviews']]
+        }
+    }
+ 
+    @Override
+    def index(final Integer max) {
+        params.max = Math.min(max ?: 10, 100)
+        respond listAllResources(params), [status: OK, includes: includeFields, excludes: ['class','menuSection','reviews']]
+    }    
+
+    private getIncludeFields() {
+        params.fields?.tokenize(',')
+    }
+}

@@ -4,6 +4,7 @@ class MenuSection {
 
     String name
     String description
+    Boolean isDefault = false
     
     static belongsTo = [menu: Menu]
     static hasMany = [dishes: Dish]

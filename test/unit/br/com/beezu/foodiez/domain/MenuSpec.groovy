@@ -10,12 +10,23 @@ import spock.lang.Specification
 @TestMixin(GrailsUnitTestMixin)
 class MenuSpec extends Specification {
 
+	def restaurantTest
+	def menu
+
     def setup() {
+    	restaurantTest = new Restaurant()
     }
 
     def cleanup() {
     }
 
-    void "test something"() {
+    void "test Menu constructor"() {
+
+    	when: "Quando objeto do tipo Menu é instanciado"
+    	menu = new Menu(restaurantTest)
+
+    	then: "Então uma sessão padrão deverá ser criada"
+    	menu.sections.size == 1
+    	menu.sections[0].isDefault == true
     }
 }

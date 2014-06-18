@@ -6,7 +6,7 @@ import grails.test.mixin.*
 import spock.lang.*
 import br.com.beezu.foodiez.domain.*
 
-@TestFor(MenuController)
+@TestFor(MenuResourceController)
 @Mock(Menu)
 class MenuResourceControllerSpec extends Specification {
 

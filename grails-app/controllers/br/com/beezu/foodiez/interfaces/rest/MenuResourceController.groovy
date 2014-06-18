@@ -10,19 +10,12 @@ import br.com.beezu.foodiez.domain.*
 class MenuResourceController extends RestfulController<Menu>{
 
     static responseFormats = ['json', 'xml']
-    //static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
-    //def show(Long id) {
     @Override
     def show() {
-        def menu = queryForResource(params.restaurantResourceId)
-        if(menu == null) {
-            render status: NOT_FOUND
-            return 
-        }
 
         JSON.use("deep") {
-            respond menu, [status: OK, includes: includeFields]
+            respond queryForResource(params.restaurantResourceId), [status: OK, includes: includeFields, excludes: ['class']]
         }
     }
 

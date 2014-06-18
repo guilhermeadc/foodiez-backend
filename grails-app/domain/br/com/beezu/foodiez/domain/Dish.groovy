@@ -8,7 +8,7 @@ class Dish {
     BigDecimal price
 
     static belongsTo = [menuSection: MenuSection]
-    static hasMany = [additions: String, options: String]
+    static hasMany   = [reviews: Review]
 
     static constraints = {
         menuSection nullable: false
@@ -16,8 +16,10 @@ class Dish {
         description nullable: true
         cuisine nullable: true
         price nullable: true 
-        options nullable: true
-        additions nullable: true
+    }
+
+    def getRating() {
+        return 0
     }
 
     @Override

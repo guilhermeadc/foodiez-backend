@@ -4,10 +4,10 @@ class Menu {
 
     String name
     String description
+    List sections = []
 
     static belongsTo = [restaurant: Restaurant]
-
-    static hasMany = [sections: MenuSection]    
+    static hasMany   = [sections: MenuSection]
 
     static mapping = {
         sections lazy: "join"
@@ -21,10 +21,15 @@ class Menu {
 
     Menu(Restaurant restaurant) {
         this.restaurant = restaurant
+        
+        if(!sections.size()) {
+            MenuSection section = new MenuSection(menu: this, name: "Default", isDefault: true)
+            sections.add(section)
+        }
     }
 
     @Override
-    String toString(){
+    String toString() {
         return name
     }
 }
