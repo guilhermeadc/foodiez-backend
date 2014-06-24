@@ -14,21 +14,6 @@ class BootStrap {
         createRestaurant("51b66034498e86980c7c3cac").save()
         createRestaurant("4b9245a8f964a52057ef33e3").save()
         createRestaurant("4bd394efa8b3a593aa666a5f").save()
-        createRestaurant("4bd394efa8b3a593aa666a5f").save()
-
-         JSON.createNamedConfig("list"){
-
-             it.registerObjectMarshaller(Dish) {
-                 def output = [:]
-                 output['restaurant'] = ['id': it.restaurant.id, 'name': it.restaurant.name]
-                 output['id'] = it.id
-                 output['name'] = it.name
-                 output['cuisine'] = it.cuisine
-                 output['price'] = it.price
-                
-                 return output;
-             } 
-         }
     }
 
     def destroy = {
