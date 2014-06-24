@@ -13,9 +13,8 @@ class MenuResourceController extends RestfulController<Menu>{
 
     @Override
     def show() {
-
         JSON.use("deep") {
-            respond queryForResource(params.restaurantResourceId), [status: OK, includes: includeFields, excludes: ['class']]
+            respond queryForResource(params.restaurantResourceId), [status: OK, includes: includeFields, excludes: ['class', 'restaurant']]
         }
     }
 

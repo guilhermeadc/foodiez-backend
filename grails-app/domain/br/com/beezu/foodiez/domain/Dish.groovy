@@ -22,6 +22,10 @@ class Dish {
         return 0
     }
 
+    def getRestaurant() {
+        return menuSection?.menu?.restaurant
+    }
+
     @Override
     String toString() {
         return name

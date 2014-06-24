@@ -63,6 +63,7 @@ grails {
     }
 }
 
+grails.converters.gson.resolveProxies = false
 grails.converters.default.circular.reference.behaviour = "INSERT_NULL"
 grails.converters.default.pretty.print = true
 //grails.converters.default.deep = false

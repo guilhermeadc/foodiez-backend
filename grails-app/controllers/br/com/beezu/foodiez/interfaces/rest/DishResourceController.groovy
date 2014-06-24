@@ -1,6 +1,7 @@
 package br.com.beezu.foodiez.interfaces.rest
 
 import grails.converters.*
+import javax.annotation.PostConstruct;
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 import grails.rest.RestfulController
@@ -18,18 +19,36 @@ class DishResourceController extends RestfulController<Dish>{
 
     @Override
     def show() {        
-        JSON.use("deep") {
-            respond queryForResource(params.id), [status: OK, includes: includeFields, excludes: ['class','menuSection','reviews']]
-        }
+        respond queryForResource(params.id), [status: OK, includes: includeFields, excludes: ['class','reviews']]
     }
- 
+
     @Override
     def index(final Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond listAllResources(params), [status: OK, includes: includeFields, excludes: ['class','menuSection','reviews']]
+        JSON.use("list") {
+            params.max = Math.min(max ?: 10, 100)
+            respond listAllResources(params), [status: OK, includes: includeFields, excludes: ['class','reviews']]
+        }
     }    
 
     private getIncludeFields() {
         params.fields?.tokenize(',')
+    }
+
+    @javax.annotation.PostConstruct 
+    void postConstruct() {
+        
+        JSON.createNamedConfig("list"){
+            it.registerObjectMarshaller(Dish) { Dish dish, JSON json ->
+                def output = [:]
+                output['restaurant'] = ['id': dish.restaurant.id, 'name': dish.restaurant.name]
+                output['id'] = dish.id
+                output['name'] = dish.name
+                output['cuisine'] = dish.cuisine
+                output['price'] = dish.price
+                output['rating'] = 0                
+                //return json.excludes
+                return output
+            }        
+        }
     }
 }

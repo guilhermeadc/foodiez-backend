@@ -4,7 +4,8 @@ class Menu {
 
     String name
     String description
-    List sections = []
+    Set sections = []
+
 
     static belongsTo = [restaurant: Restaurant]
     static hasMany   = [sections: MenuSection]
