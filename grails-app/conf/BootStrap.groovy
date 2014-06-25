@@ -1,8 +1,10 @@
 import br.com.beezu.foodiez.domain.*
 import grails.converters.*
+import org.codehaus.groovy.grails.web.converters.marshaller.json.*
+import org.codehaus.groovy.grails.commons.ApplicationHolder
 
 class BootStrap {
-
+        
     def init = { servletContext ->
 
         createRestaurant("4caca9ce14c337041d47f23b").save()
@@ -14,6 +16,19 @@ class BootStrap {
         createRestaurant("51b66034498e86980c7c3cac").save()
         createRestaurant("4b9245a8f964a52057ef33e3").save()
         createRestaurant("4bd394efa8b3a593aa666a5f").save()
+
+        JSON.createNamedConfig("dish-list") {
+            it.registerObjectMarshaller(Dish, 0) { Dish dish, JSON json ->
+                def marshaller = new DeepDomainClassMarshaller(false, ApplicationHolder.application)
+                marshaller.marshalObject(dish, json)
+            }
+ 
+            it.registerObjectMarshaller(MenuSection, 0) { MenuSection section, JSON json ->
+                def marshaller = new DeepDomainClassMarshaller(false, ApplicationHolder.application)
+                json.setExcludes(section.getClass(), ['class', 'dishes', 'menu'])
+                marshaller.marshalObject(section, json)
+            }
+        }            
     }
 
     def destroy = {

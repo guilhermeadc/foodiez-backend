@@ -1,6 +1,7 @@
 import grails.rest.render.hal.*
 import grails.rest.render.json.*
 import br.com.beezu.foodiez.domain.*
+import br.com.beezu.foodiez.interfaces.rest.*
 
 // Place your Spring DSL code here
 beans = {		
