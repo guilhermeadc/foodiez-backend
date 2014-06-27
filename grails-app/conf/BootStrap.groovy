@@ -57,10 +57,23 @@ class BootStrap {
         def random = new Random()
         def price = 0
         def description
+        def dish
         for(element in dishesNames) {
             price = Math.abs(random.nextInt() % 100 + 1)
             description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            menuSection.addToDishes(name: element, price: price, cuisine: menuSection.name, description: description)
+            dish = new Dish(name: element, price: price, cuisine: menuSection.name, description: description)
+            populateReviews(dish)
+            menuSection.addToDishes(dish)
         }
     }    
+
+    def populateReviews(dish) {
+        def comments = ["Comment 001", "Comment 002", "Comment 003", "Comment 004", "Comment 005", "Comment 006"]
+        def random = new Random()
+        def rating = 0
+        for(element in comments) {
+            rating = Math.abs(random.nextInt() % 5 + 1)
+            dish.addToReviews(comment: element, rating: rating)
+        }        
+    }
 }

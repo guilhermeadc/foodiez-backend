@@ -9,7 +9,7 @@ import br.com.beezu.foodiez.domain.*
 @Transactional(readOnly = true)
 class MenuResourceController extends RestfulController<Menu>{
 
-    static responseFormats = ['json', 'xml']
+    static responseFormats = ['json']
 
     @Override
     def show() {

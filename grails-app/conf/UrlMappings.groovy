@@ -8,9 +8,12 @@ class UrlMappings {
             }
         }
 
-        "/api/dishes"(resources:"dishResource")
-        "/api/restaurants"(resources:"restaurantResource") {
-            "/menu"(resource:"menuResource")            
+        "/api/dishes"(resources:"DishResource") {
+            "/photos"(resources:"PhotoResource")
+            "/reviews"(resources:"ReviewResource")
+        }
+        "/api/restaurants"(resources:"RestaurantResource") {
+            "/menu"(resource:"MenuResource")            
         }
 
         "/"(view:"/index")

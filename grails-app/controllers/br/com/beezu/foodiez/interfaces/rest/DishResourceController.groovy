@@ -9,7 +9,7 @@ import br.com.beezu.foodiez.domain.*
 @Transactional(readOnly = true)
 class DishResourceController extends RestfulController<Dish> {
 
-    static responseFormats = ['json', 'xml']
+    static responseFormats = ['json']
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     DishResourceController() {

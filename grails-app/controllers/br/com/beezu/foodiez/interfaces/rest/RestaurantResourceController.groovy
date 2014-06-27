@@ -20,7 +20,6 @@ class RestaurantResourceController extends RestfulController<Restaurant> {
 
     @Override
     def show() {    
-
         JSON.use("deep") {
             respond queryForResource(params.id), [status: OK, includes: includeFields, excludes: ['class','menu']]
         }
@@ -28,8 +27,10 @@ class RestaurantResourceController extends RestfulController<Restaurant> {
  
     @Override
     def index(final Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond listAllResources(params), [status: OK, includes: includeFields, excludes: ['class','menu']]
+        JSON.use("dish-list") {
+            params.max = Math.min(max ?: 10, 100)
+            respond listAllResources(params), [status: OK, includes: includeFields, excludes: ['class','menu']]
+        }
     }
 
     @Override

@@ -6,9 +6,10 @@ class Dish {
     String description
     String cuisine
     BigDecimal price
+    Double rating
 
     static belongsTo = [menuSection: MenuSection]
-    static hasMany   = [reviews: Review]
+    static hasMany   = [reviews: Review, photos: Photo]
 
     static constraints = {
         menuSection nullable: false
@@ -16,10 +17,18 @@ class Dish {
         description nullable: true
         cuisine nullable: true
         price nullable: true 
+        rating nullable: true, scale: 1
     }
 
-    def getRating() {
-        return 0
+    Double getRating() {
+        def dishId = this.id ?: 0l
+        def rating = 0
+        try {
+            rating = Review.executeQuery(
+                "select avg(rating) from Review where dish.id = :DishId", 
+                [DishId: dishId])[0]
+        }
+        catch(Exception err) { log.error(err.message) }
     }
 
     def getRestaurant() {

@@ -1,20 +1,20 @@
 package br.com.beezu.foodiez.interfaces.rest
 
+import org.springframework.mock.web.MockMultipartFile
+import br.com.beezu.foodiez.domain.*
 import static org.springframework.http.HttpStatus.*
 import grails.converters.JSON
 import grails.test.mixin.*
 import spock.lang.*
-import br.com.beezu.foodiez.domain.*
 
-
-@TestFor(DishResourceController)
-@Mock(Dish)
-class DishResourceControllerSpec extends Specification {
+@TestFor(PhotoResourceController)
+@Mock(Photo)
+class PhotoResourceControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
-        //params['name'] = 'someValidName'
+        params['name'] = 'someValidName'
+        params['fileName'] = 'someValidFileName'
     }
 
     void "Test the index action returns the correct model"() {
@@ -32,8 +32,8 @@ class DishResourceControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             // Make sure the domain class has at least one non-null property
             // or this test will fail.
-            def dish = new Dish()
-            controller.save(dish)
+            def photo = new Photo()
+            controller.save(photo)
 
         then:"The response status is NOT_ACCEPTABLE"
             response.status == NOT_ACCEPTABLE.value
@@ -41,13 +41,13 @@ class DishResourceControllerSpec extends Specification {
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            dish = new Dish(params)
+            photo = new Photo(params)
 
-            controller.save(dish)
+            controller.save(photo)
 
         then:"The response status is CREATED and the instance is returned"
             response.status == CREATED.value
-            response.text == (dish as JSON).toString()
+            response.text == (photo as JSON).toString()
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -59,8 +59,8 @@ class DishResourceControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def dish = new Dish()
-            controller.update(dish)
+            def photo = new Photo()
+            controller.update(photo)
 
         then:"The response status is NOT_ACCEPTABLE"
             response.status == NOT_ACCEPTABLE.value
@@ -68,12 +68,12 @@ class DishResourceControllerSpec extends Specification {
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            dish = new Dish(params).save(flush: true)
-            controller.update(dish)
+            photo = new Photo(params).save(flush: true)
+            controller.update(photo)
 
         then:"The response status is OK and the updated instance is returned"
             response.status == OK.value
-            response.text == (dish as JSON).toString()
+            response.text == (photo as JSON).toString()
     }
 
     void "Test that the delete action deletes an instance if it exists"() {
@@ -86,16 +86,31 @@ class DishResourceControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def dish = new Dish(params).save(flush: true)
+            def photo = new Photo(params).save(flush: true)
 
         then:"It exists"
-            Dish.count() == 1
+            Photo.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(dish)
+            controller.delete(photo)
 
         then:"The instance is deleted"
-            Dish.count() == 0
+            Photo.count() == 0
             response.status == NO_CONTENT.value
+    }
+
+    void "Test the save action correctly persists photo image"() {
+        given:
+            def content = "Hello Word".getBytes();    
+            def image = new MockMultipartFile("content", "test.txt", "text/plain", content);        
+
+        when:"The save action is executed with a valid instance"
+            populateValidParams(params)
+            def photo = new Photo(params)
+            def fileName = controller.saveImageFile(photo, image)
+
+        then:"The response status is CREATED and the instance is returned"
+            !fileName.isEmpty()
+            //fileName ~= "/tmp/foodiez/testDir/.+"
     }
 }

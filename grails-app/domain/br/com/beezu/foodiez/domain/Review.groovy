@@ -10,7 +10,7 @@ class Review {
     static constraints = {
     	dish nullable: false
     	rating range: 0..5
-    	comment blank: true
+    	comment size: 0..140
     }
 
     Review (Dish dish) {
